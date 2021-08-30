@@ -1,10 +1,17 @@
 package modelo;
-
+/**
+ * @author Agüero Sebastián, Mujica Juan Manuel, Navarro Pablo, Vucetic Ivo
+ * <br>
+ * Clase Negocio
+ * */
 import excepciones.CantMesasIncorrectoException;
 
 public class Negocio {
 	//private BeerHouse cerveceria;
-	
+	/**
+	 * Metodo abrirLocal 
+	 * <br>
+	 * */
 	public void abrirLocal(int cantMesas)throws CantMesasIncorrectoException  {
 		//cantMesas no está validado
 		if(cantMesas<=0 || cantMesas>BeerHouse.getInstance().getCantMesasMaxima())

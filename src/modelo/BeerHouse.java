@@ -1,5 +1,9 @@
 package modelo;
-
+/**
+ * @author Agüero Sebastián, Mujica Juan Manuel, Navarro Pablo, Vucetic Ivo
+ * <br>
+ * Clase BeerHouse 
+ * */
 //import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -35,15 +39,36 @@ public class BeerHouse {
 		}
 	}
 	
+	private boolean verificaMesasVacias() {
+		Mesa actual=null;
+		boolean cumpleLibres=true;
+		int i=0;
+		while(cumpleLibres && i<=this.mesas.size()) {
+			actual=this.mesas.get(i);
+			if(actual.isOcupada())
+				cumpleLibres=false;
+			i++;
+		}
+		return cumpleLibres;
+	}
+	
+	/**
+	 * <b>Pre: </b> parámetro cantMesas debe ser positivo<br>
+	 * <b>Post: </b> el local debería estar abierto <br>
+	 * 
+	 */
 	public void abrirLocal(int cantMesas) {
-		//Pre: cantidad de mesas >=1 
 		//Pre cantiad de productos>= 1
 		
 		//Inicializar los atributos
+		
+		assert cantMesas>0 : "BeerHouse.abrirLocal() cantMesas no es positiva";
+		
 		desocuparMesas();
 		this.cantidadDeProductos=0;
 		this.cantidadDeMesasHabilitadas=cantMesas;
-		
+
+		assert verificaMesasVacias() : "BeerHouse.abrirLocal() Las mesas no están vacias";
 	}
 	
 	public void agregarMesa(Mesa mesa) {
