@@ -12,6 +12,9 @@ public class BeerHouse {
 	//private HashMap<Integer, Producto> carta = new HashMap<Integer,Producto>();
 	
 	//private ArrayList<Mesa> mesas = new ArrayList<Mesa>();
+	public int getCantMesasMaxima() {
+		return this.mesas.size();
+	}
 
 	private BeerHouse() {
 		this.cantidadDeMesasHabilitadas=0;
@@ -50,6 +53,8 @@ public class BeerHouse {
 	
 	public Mesa ocuparMesa(int nroMesa) {
 		Mesa aux;
+		//¿Deberia este metodo verificar si el local está abierto?
+		//podría ser un invariante
 		aux=this.mesas.get(nroMesa);
 		aux.setOcupada(true);
 		return aux;
@@ -63,7 +68,7 @@ public class BeerHouse {
 		
 	}
 	
-	
+
 	public int getCantidadDeMesasHabilitadas() {
 		return cantidadDeMesasHabilitadas;
 	}
