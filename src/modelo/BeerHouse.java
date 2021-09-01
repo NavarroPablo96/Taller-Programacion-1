@@ -4,18 +4,16 @@ package modelo;
  * <br>
  * Clase BeerHouse 
  * */
-//import java.util.ArrayList;
 import java.util.HashMap;
+
+import excepciones.MesaNoDisponibleException;
 
 public class BeerHouse {
 	private static BeerHouse instance=null;
-	//cantiadad máxima de mesas
-	private int cantidadDeMesasHabilitadas;	// cantiadad de mesas disponibles cuando se abre el local
+	private int cantidadDeMesasHabilitadas;
 	private int cantidadDeProductos;
 	private HashMap<Integer, Mesa> mesas = new HashMap<Integer,Mesa>();
-	//private HashMap<Integer, Producto> carta = new HashMap<Integer,Producto>();
 	
-	//private ArrayList<Mesa> mesas = new ArrayList<Mesa>();
 	public int getCantMesasMaxima() {
 		return this.mesas.size();
 	}
@@ -39,6 +37,7 @@ public class BeerHouse {
 		}
 	}
 	
+	
 	private boolean verificaMesasVacias() {
 		Mesa actual=null;
 		boolean cumpleLibres=true;
@@ -52,16 +51,14 @@ public class BeerHouse {
 		return cumpleLibres;
 	}
 	
+	
 	/**
 	 * <b>Pre: </b> parámetro cantMesas debe ser positivo<br>
-	 * <b>Post: </b> el local debería estar abierto <br>
-	 * 
+	 * <b>Post: </b> todas las mesas estan desocupadas <br>
+	 * la carta esta actualizada con todos los productos disponibles <br>
 	 */
 	public void abrirLocal(int cantMesas) {
-		//Pre cantiad de productos>= 1
-		
-		//Inicializar los atributos
-		
+		verificaInvariante();
 		assert cantMesas>0 : "BeerHouse.abrirLocal() cantMesas no es positiva";
 		
 		desocuparMesas();
@@ -69,6 +66,7 @@ public class BeerHouse {
 		this.cantidadDeMesasHabilitadas=cantMesas;
 
 		assert verificaMesasVacias() : "BeerHouse.abrirLocal() Las mesas no están vacias";
+		verificaInvariante();
 	}
 	
 	public void agregarMesa(Mesa mesa) {
@@ -76,23 +74,36 @@ public class BeerHouse {
 		
 	}
 	
-	public Mesa ocuparMesa(int nroMesa) {
+	public Mesa ocuparMesa(int nroMesa)throws MesaNoDisponibleException {
 		Mesa aux;
+		verificaInvariante();
+		
 		//¿Deberia este metodo verificar si el local está abierto?
 		//podría ser un invariante
 		aux=this.mesas.get(nroMesa);
+		if(aux.isOcupada())
+			throw new MesaNoDisponibleException("La mesa ya está ocupada");
 		aux.setOcupada(true);
+		
+		verificaInvariante();
 		return aux;
 	}
 	
 	public double cerrarMesa(int nroMesa) {
+		verificaInvariante();
+		
 		double aux=this.mesas.get(nroMesa).getImporte();
 		this.mesas.get(nroMesa).setOcupada(false);
 		this.mesas.get(nroMesa).setImporte(0);
-		return aux;
 		
+		verificaInvariante();
+		return aux;
 	}
 	
+	private void verificaInvariante() {
+		assert cantidadDeMesasHabilitadas>=1 : "No cumple invariante de clase"; 
+		assert cantidadDeProductos>=1 :  "No cumple invariante de clase";
+	}
 
 	public int getCantidadDeMesasHabilitadas() {
 		return cantidadDeMesasHabilitadas;

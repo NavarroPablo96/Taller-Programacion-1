@@ -1,13 +1,14 @@
 package modelo;
+import excepciones.CantMesasIncorrectoException;
+import excepciones.MesaNoDisponibleException;
+
 /**
  * @author Agüero Sebastián, Mujica Juan Manuel, Navarro Pablo, Vucetic Ivo
  * <br>
  * Clase Negocio
  * */
-import excepciones.CantMesasIncorrectoException;
-
 public class Negocio {
-	//private BeerHouse cerveceria;
+	
 	/**
 	 * Metodo abrirLocal 
 	 * <br>
@@ -21,7 +22,7 @@ public class Negocio {
 		//postCondición se debe abrir el local
 	}
 	
-	public Mesa ocuparMesa(int nroMesa) throws CantMesasIncorrectoException{
+	public Mesa ocuparMesa(int nroMesa) throws CantMesasIncorrectoException,MesaNoDisponibleException{
 		Mesa act=null;
 		//se debe validad nroMesa
 		if(nroMesa<=0 || nroMesa>BeerHouse.getInstance().getCantidadDeMesasHabilitadas())
